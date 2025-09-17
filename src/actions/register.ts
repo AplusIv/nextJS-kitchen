@@ -1,4 +1,4 @@
-"use server"
+"use server";
 
 import { IFormData } from "@/types/form-data";
 import { saltAndHashPassword } from "@/utils/password";

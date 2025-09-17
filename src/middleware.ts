@@ -10,7 +10,10 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl; // текущий путь. Нпр, "/ingredients", "/about", "/" и т.д.
 
   // извелакем jwt токен (при наличии, если авторизованная сессия)
-  const token = await getToken({ req: request }) // token | null
+  const token = await getToken({ 
+    req: request,
+    secret: process.env.AUTH_SECRET, // секрктный JWT токен 
+  }) // token | null
 
   // защищенные авторизацией пути
   const protectedRoutes = ["/ingredients"];
