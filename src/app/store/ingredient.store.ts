@@ -16,6 +16,7 @@ export const useIngredientStore = create<IngredientState>((set) => ({
   ingredients: [],
   isLoading: false,
   error: null,
+
   loadIngredients: async () => {
     set({ isLoading: true, error: null }); // установка активной загрузки и сброс возможных ошибок до вызова метода
 
@@ -33,7 +34,7 @@ export const useIngredientStore = create<IngredientState>((set) => ({
     }
   },
   addIngredient: async (formData: FormData) => {
-    set({ isLoading: true, error: null });
+    set({ error: null });
 
     try {
       const result = await createIngredient(formData);
@@ -52,7 +53,7 @@ export const useIngredientStore = create<IngredientState>((set) => ({
     }
   },
   removeIngredient: async (id: string) => {
-    set({ isLoading: true, error: null });
+    set({ error: null });
 
     try {
       const result = await deleteIngredient(id);
