@@ -15,7 +15,7 @@ interface RecipeCardProps {
 const RecipeCard = ({ recipe }: RecipeCardProps) => {
   const { removeRecipe } = useRecipeStore();
 
-  // лоадер при отправке формы
+  // лоадер на кнопке при отправке формы
   const [isPending, startTransition] = useTransition();
 
   const handleDelete = () => {
