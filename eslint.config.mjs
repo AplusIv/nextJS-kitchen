@@ -10,7 +10,10 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  ...compat.extends("next/core-web-vitals", "next/typescript"), 
+  {
+    ignores: ["src/generated/**"] // игнорировать проверку папки prisma generated, для деплоя на Vercel
+  }
 ];
 
 export default eslintConfig;
