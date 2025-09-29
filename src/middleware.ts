@@ -9,11 +9,24 @@ import { getToken, GetTokenParams } from "next-auth/jwt";
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl; // текущий путь. Нпр, "/ingredients", "/about", "/" и т.д.
 
-  // извелакем jwt токен (при наличии, если авторизованная сессия)
-  const token = await getToken({
+  // getToken в разных окружениях (dev, prod) работает по-разному, не учитывает наименования кук:
+  // authjs.session-token на localhost
+  // __Secure-authjs.session-token на Vercel (prod, deploy)
+
+  let params: GetTokenParams = {
     req: request,
-    secret: process.env.AUTH_SECRET, // секректный JWT токен 
-  }) // token | null
+    secret: process.env.AUTH_SECRET ?? "secret" // секректный JWT токен для локали
+  };
+
+  if (process.env.NODE_ENV === "production") {
+    params = {
+      ...params,
+      cookieName: "__Secure-authjs.session-token" // секректный JWT токен при деплое
+    };
+  }
+
+  // извелакем jwt токен (при наличии, если авторизованная сессия)
+  const token = await getToken(params); // token | null
 
   // защищенные авторизацией пути
   const protectedRoutes = ["/ingredients", "/recipes/new", "/recipes/:path*"];
